@@ -8,7 +8,8 @@ Author: Yavor Zhekov
 
 function custom_post_types() {
     register_post_type('event', array(
-        'suports' => array('title', 'editor', 'excerpt'),
+        'show_in_rest' => true,
+        'supports' => array('title', 'editor', 'excerpt'),
         'rewrite' => array('slug' => 'events'),
         'public' => true,
         'has_archive' => true,

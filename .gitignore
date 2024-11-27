@@ -35,7 +35,7 @@ wp-content/plugins/*
 
 # Ignore WordPress themes except for custom themes
 wp-content/themes/*
-!wp-content/themes/my-custom-theme/
+!wp-content/themes/weird-tales/
 
 # Ignore other temporary or development files
 .sass-cache/
