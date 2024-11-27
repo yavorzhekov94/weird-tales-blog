@@ -31,7 +31,7 @@ wp-content/uploads/
 
 # Ignore WordPress plugins except for custom plugins
 wp-content/plugins/*
-!wp-content/plugins/my-custom-plugin/
+!wp-content/plugins/events/
 
 # Ignore WordPress themes except for custom themes
 wp-content/themes/*
