@@ -11,12 +11,10 @@
     </div>
     <div class="container container--narrow page-section">
         <?php
-        $args = [
-            'post_type' => 'event'
-        ];
-        $home_page_events = new WP_Query( $args );
-        while ($home_page_events->have_posts()) {
-            $home_page_events->the_post(); ?>
+       
+       while(have_posts()) {
+
+        the_post(); ?>
                 <div class="event-summary">
                 <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
                   <span class="event-summary__month"><?php the_time('M');?></span>
@@ -28,7 +26,7 @@
                 </div>
               </div>
             <?php }
-            echo paginate_links();
+            
         ?>
     </div>
     <?php get_footer();
