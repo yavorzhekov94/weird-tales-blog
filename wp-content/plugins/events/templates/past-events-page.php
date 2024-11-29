@@ -11,14 +11,26 @@
     </div>
     <div class="container container--narrow page-section">
         <?php
-       $query = new WP_Query( array(
-        'post_type'      => 'event',
-        'posts_per_page' => -1, // Use -1 for no limit, or a specific number
+         $args = [
+            'posts_per_page' => 2,
+            'paged' => get_query_var('paged', 1),
+            'post_type' => 'event',
+            'meta_key' => 'event_date',
+            'orderby' => 'meta_value',
+            'meta_query' => array(
+              'key' => 'event_date',
+              'compare' => '<',
+              'value' => date('Ymd'),
+              'type' => 'numeric'
+            ),
+            'order' => 'ASC'
+        ];
 
-    ) );
-       while($query->have_posts()) {
+        $query = new WP_Query( $args
+        );
+        while($query->have_posts()) {
 
-        $query->the_post(); ?>
+                $query->the_post(); ?>
                 <div class="event-summary">
                 <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
                   <span class="event-summary__month"><?php 
@@ -38,7 +50,11 @@
                 </div>
               </div>
             <?php }
-            echo paginate_links();
+            echo paginate_links(
+                array(
+                    'total' => $query->max_num_pages
+                )
+            );
         ?>
     </div>
     <?php get_footer();

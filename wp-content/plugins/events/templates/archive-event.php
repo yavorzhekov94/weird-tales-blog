@@ -11,14 +11,10 @@
     </div>
     <div class="container container--narrow page-section">
         <?php
-       $query = new WP_Query( array(
-        'post_type'      => 'event',
-        'posts_per_page' => -1, // Use -1 for no limit, or a specific number
+       
+       while(have_posts()) {
 
-    ) );
-       while($query->have_posts()) {
-
-        $query->the_post(); ?>
+        the_post(); ?>
                 <div class="event-summary">
                 <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
                   <span class="event-summary__month"><?php 
@@ -38,8 +34,10 @@
                 </div>
               </div>
             <?php }
-            echo paginate_links();
+            echo paginate_links()
         ?>
+      <hr class="section-break">
+      <p> Looking for a recap of past events? <a href="<?php echo site_url('/past-events') ?>">Check out our past events archive.</a></p>
     </div>
     <?php get_footer();
 ?>
