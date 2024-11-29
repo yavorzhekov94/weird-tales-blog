@@ -21,4 +21,20 @@ function weird_tales_features () {
     add_theme_support('title-tag');
 }
 add_action('after_setup_theme', 'weird_tales_features');
+
+function adjust_queries($query) {
+    if (!is_admin() && is_post_type_archive('event')) {
+        $query->set('meta_key', 'event_date');
+        $query->set('orderby', 'meta_Value_num');
+        $query->set('order', 'ASC');
+        $query->set('meta_query', array(
+            'key' => 'event_date',
+            'compare' => '>=',
+            'value' => date('Ymd'),
+            'type' => 'numeric'
+        ));
+    }
+    
+}
+add_action('pre_get_posts', 'adjust_queries')
 ?>

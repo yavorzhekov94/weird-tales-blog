@@ -6,6 +6,12 @@ Version: 1.0
 Author: Yavor Zhekov
 */
 
+// Include the file with the page creation function
+require_once plugin_dir_path(__FILE__) . 'includes/past-events.php';
+
+// Activation hook to create the page
+register_activation_hook(__FILE__, 'create_past_events_page');
+
 function custom_post_types() {
     register_post_type('event', array(
         'show_in_rest' => true,
@@ -48,6 +54,16 @@ function load_event_custom_template($template) {
     return $template;
 }
 add_filter('template_include', 'load_event_custom_template');
+
+function use_custom_past_events_template($template) {
+    if (is_page('past-events')) {
+        return plugin_dir_path(__FILE__) . 'templates/past-events-page.php';
+    }
+    return $template;
+}
+
+add_filter('page_template', 'use_custom_past_events_template');
+
 
 function flush_rewrite_rules_on_activation() {
     flush_rewrite_rules();
