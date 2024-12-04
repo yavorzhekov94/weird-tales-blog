@@ -19,10 +19,19 @@ function weird_tales_features () {
         'footer_menu_second', 'Footer Menu Second'
     );
     add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
+    add_image_size('albumLandScape', 400, 260, true);
+    add_image_size('albumPortrait', 480, 650, true);
 }
 add_action('after_setup_theme', 'weird_tales_features');
 
 function adjust_queries($query) {
+    if (!is_admin() && is_post_type_archive('member')) {
+        $query->set('orderby', 'title');
+        $query->set('order', 'ASC');
+        $query->set('posts_per_page', -1);
+
+    }
     if (!is_admin() && is_post_type_archive('event')) {
         $query->set('meta_key', 'event_date');
         $query->set('orderby', 'meta_Value_num');

@@ -10,9 +10,8 @@ function member_post_type() {
     register_post_type('member', array(
         'show_in_rest' => true,
         'supports' => array('title', 'editor', 'excerpt'),
-        'rewrite' => array('slug' => 'members'),
         'public' => true,
-        'has_archive' => true,
+        'show_in_rest' => true,
         'labels' => array(
             'name' => 'Members',
             'add_new_item' => 'Add New Member',
@@ -25,10 +24,39 @@ function member_post_type() {
 }
 add_action('init', 'member_post_type');
 
+function album_post_type() {
+    register_post_type('album', array(
+        'show_in_rest' => true,
+        'supports' => array('title', 'editor', 'excerpt', 'thumbnail'),
+        'rewrite' => array('slug' => 'albums'),
+        'public' => true,
+        'has_archive' => true,
+        'labels' => array(
+            'name' => 'Albums',
+            'add_new_item' => 'Add New Album',
+            'edit_item' => 'Edit Album',
+            'all_items' => 'All Albums',
+            'singular_name' => 'Albums'
+        ),
+        'menu_icon' => 'dashicons-welcome-learn-more'
+    ));
+}
+add_action('init', 'album_post_type');
+
 function load_member_custom_template($template) {
     if (is_singular('member')) {
         // Path to your custom template inside the plugin
         $custom_template = plugin_dir_path(__FILE__) . 'templates/single-member.php';
+
+        // Check if the custom template exists
+        if (file_exists($custom_template)) {
+            return $custom_template;
+        }
+    }
+
+    if (is_singular('album')) {
+        // Path to your custom template inside the plugin
+        $custom_template = plugin_dir_path(__FILE__) . 'templates/single-album.php';
 
         // Check if the custom template exists
         if (file_exists($custom_template)) {
