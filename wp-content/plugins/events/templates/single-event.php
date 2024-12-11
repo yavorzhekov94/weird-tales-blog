@@ -2,12 +2,7 @@
 <?php
 while (have_posts()) {
     the_post();
-    page_banner(
-        array(
-            'title' => 'My event',
-            'subtitle' => "Events Ipsum Dolor"
-        )
-    );
+    page_banner();
      ?>
     <div class="container container--narrow page-section">
         <div class="metabox metabox--position-up metabox--with-home-link">

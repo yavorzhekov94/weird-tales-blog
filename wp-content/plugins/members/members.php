@@ -5,8 +5,7 @@ Description: A plugin to register custom members.
 Version: 1.0
 Author: Yavor Zhekov
 */
-
-function member_post_type() {
+function member_post_types() {
     register_post_type('member', array(
         'show_in_rest' => true,
         'supports' => array('title', 'editor', 'excerpt'),
@@ -21,10 +20,7 @@ function member_post_type() {
         ),
         'menu_icon' => 'dashicons-awards'
     ));
-}
-add_action('init', 'member_post_type');
 
-function album_post_type() {
     register_post_type('album', array(
         'show_in_rest' => true,
         'supports' => array('title', 'editor', 'excerpt', 'thumbnail'),
@@ -40,8 +36,25 @@ function album_post_type() {
         ),
         'menu_icon' => 'dashicons-welcome-learn-more'
     ));
+
+    register_post_type('hall', array(
+        'show_in_rest' => true,
+        'supports' => array('title', 'editor', 'excerpt', 'thumbnail'),
+        'rewrite' => array('slug' => 'halls'),
+        'public' => true,
+        'has_archive' => true,
+        'labels' => array(
+            'name' => 'Concert Halls',
+            'add_new_item' => 'Add New Concert Hall',
+            'edit_item' => 'Edit Concert Hall',
+            'all_items' => 'All Concert Halls',
+            'singular_name' => 'Halls'
+        ),
+        'menu_icon' => 'dashicons-location-alt'
+    ));
 }
-add_action('init', 'album_post_type');
+add_action('init', 'member_post_types');
+
 
 function load_member_custom_template($template) {
     if (is_singular('member')) {

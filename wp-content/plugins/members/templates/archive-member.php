@@ -1,14 +1,13 @@
 <?php 
-    get_header(); ?>
-    <div class="page-banner">
-        <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/ocean.jpg')?>)"></div>
-        <div class="page-banner__content container container--narrow">
-            <h1 class="page-banner__title"> All Members</h1>
-            <div class="page-banner__intro">
-            <p> Lorem ipsum dolor!</p>
-            </div>
-        </div>
-    </div>
+    get_header();
+    page_banner(
+        array(
+            'title' => 'All Member',
+            'subtitle' => "LOve my special members"
+          )
+        ); 
+    ?>
+    
     <div class="container container--narrow page-section">
         <ul class="lin-list min-list">
             <?php
