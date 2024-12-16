@@ -1,5 +1,6 @@
 <?php
 function weird_tales_files() {
+    wp_enqueue_script('googleMap', '//maps.googleapis.com/maps/api/js?key=AIzaSyAU412-df0WDUB593e6MkbuB1HVE1y6zgg', NULL, '1.0', true);
     wp_enqueue_script('weird_tales_main_scripts', get_theme_file_uri('/build/index.js'), array('jquery'), '1.0', true);
     wp_enqueue_style('custom-google-fonts', '///fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
     wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
@@ -95,4 +96,9 @@ function event_summary() { ?>
     </div>
 
 <?php }
+function concert_hall_map_key($api) {
+ $api['key'] = 'AIzaSyAU412-df0WDUB593e6MkbuB1HVE1y6zgg';
+ return $api;
+}
+add_filter('acf/fields/google_map/api', 'concert_hall_map_key')
 ?>

@@ -77,8 +77,25 @@ function load_member_custom_template($template) {
         }
     }
 
+    if (is_singular('hall')) {
+        // Path to your custom template inside the plugin
+        $custom_template = plugin_dir_path(__FILE__) . 'templates/single-hall.php';
+
+        // Check if the custom template exists
+        if (file_exists($custom_template)) {
+            return $custom_template;
+        }
+    }
+
     if (is_post_type_archive('member')) {
         $custom_template = plugin_dir_path(__FILE__) . 'templates/archive-member.php';
+        if (file_exists($custom_template)) {
+            return $custom_template;
+        }
+    }
+
+    if (is_post_type_archive('hall')) {
+        $custom_template = plugin_dir_path(__FILE__) . 'templates/archive-hall.php';
         if (file_exists($custom_template)) {
             return $custom_template;
         }
