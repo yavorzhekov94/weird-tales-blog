@@ -1,6 +1,7 @@
 import $ from 'jquery';
 class Search {
     constructor() {
+        this.addSearchHtml();
         this.openButton = $('.js-search-trigger');
         this.closeButton = $('.search-overlay__close');
         this.resultsDiv = $('#search-overlay__results');
@@ -32,7 +33,7 @@ class Search {
                     this.isSpinnerVisible = true;
                     this.resultsDiv.html('<div class="spinner-loader"></div>');
                 }
-                this.typingTimer = setTimeout(this.getResults.bind(this), 2000 );
+                this.typingTimer = setTimeout(this.getResults.bind(this), 750);
 
             } else {
                 this.resultsDiv.html('');
@@ -45,9 +46,30 @@ class Search {
     }
 
     getResults() {
-      $.getJSON('http://localhost/wordpress_blog/wp-json/wp/v2/posts?search=' + this.searchField.val(), function(posts) {
-        
-      });
+        $.getJSON(
+            blogData.root_url + '/wp-json/wp/v2/search?search=' + this.searchField.val() + '&subtype=post,page,event,member,album,hall',
+            results => {
+                this.resultsDiv.html(`
+                    <h2 class="search-overlay__section-title">Search Results</h2>
+                    ${results.length ? '<ul class="link-list min-list">' : '<p>No results found for this keyword.</p>'}
+                    ${results
+                        .map(
+                            item => `
+                                <li>
+                                    <a href="${item.url}">${item.title} by ${item.authorName}</a> 
+                                    <span>(${item.type})</span>
+                                </li>
+                            `
+                        )
+                        .join('')}
+                    ${results.length ? '</ul>' : ''}
+                `);
+                this.isSpinnerVisible = false;
+            }
+        ).fail(() => {
+            this.resultsDiv.html('<p>Something went wrong. Please try again.</p>');
+            this.isSpinnerVisible = false;
+        });
     }
 
     keyPressDispatcher (e) {
@@ -61,8 +83,11 @@ class Search {
     }
 
     openOverlay() {
+
         this.searchOverlay.addClass('search-overlay--active');
         $("body").addClass("body-no-scroll");
+        this.searchField.val('');
+        setTimeout(() => this.searchField.focus());
         this.isOverlayOpen = false;
     };
 
@@ -70,5 +95,21 @@ class Search {
         this.searchOverlay.removeClass('search-overlay--active');
         $("body").removeClass("body-no-scroll");
     };
+
+    addSearchHtml() {
+        const htmlData = `<div class="search-overlay">
+                            <div class="search-overlay__top">
+                               <div class="container">
+                                  <i class="fa fa-search search-overlay__icon" aria-hidden="true"></i>
+                                  <input type="text" class="search-term" placeholder="What are you looking for?" id="search-term">
+                                  <i class="fa fa-window-close search-overlay__close" aria-hidden="true"></i>  
+                               </div>     
+                            </div>
+                            <div class="container">
+                                <div id="search-overlay__results"></div>
+                            </div>    
+                          </div>`
+        $("body").append(htmlData);
+    }
 }
 export default Search
