@@ -19,11 +19,11 @@
                    
                     <div class="metabox">
                         <p> Posted by <?php the_author_posts_link(); ?>
-                        <?php
-                        echo 'on ' . get_the_date('d/m/Y') . ' at ' . get_the_time('g:i a');
-                        ?>
-                        in <?php echo get_the_category_list(', '); ?>
-                     </p>
+                            on <a href="<?php echo get_day_link(get_the_time('Y'), get_the_time('m'), get_the_time('d')); ?>">
+                                <?php echo get_the_date('d/m/Y'); ?>
+                            </a> at <?php the_time('g:i a'); ?>
+                            in <?php echo get_the_category_list(', '); ?>
+                        </p>
                     </div>
                     <div class="generic-contect">
                         <?php the_excerpt(); ?>
