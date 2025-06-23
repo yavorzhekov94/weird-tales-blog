@@ -31,8 +31,6 @@ wp-content/uploads/
 
 # Ignore WordPress plugins except for custom plugins
 wp-content/plugins/*
-!wp-content/plugins/events/
-!wp-content/plugins/members/
 
 # Ignore WordPress themes except for custom themes
 wp-content/themes/*
@@ -56,3 +54,4 @@ wp-content/themes/*
 
 # Ignore composer files
 composer.lock
+notes.txt
