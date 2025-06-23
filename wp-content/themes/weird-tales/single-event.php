@@ -20,13 +20,15 @@ while (have_posts()) {
              <?php the_content(); ?>
         </div>
         <?php 
-            $related_members = get_field('related_members');
-            if ($related_members) {
+            $related_programs = get_field('related_programs');
+
+            if ($related_programs) {
                 echo '<hr class="section-break">';
-                echo '<h2 class="headline headline--medium"> Related members </h2>';
+                echo '<h2 class="headline headline--medium"> Related Programs </h2>';
                 echo '<ul class="link list min-list">';
-                foreach ($related_members as $member) { ?>
-                <li><a href="<?php echo get_the_permalink($member)?>"><?php echo get_the_title($member)?></a></li>
+                foreach ($related_programs as $program) { ?>
+
+                <li><a href="<?php echo get_the_permalink($program)?>"><?php echo get_the_title($program)?></a></li>
                     
                 <?php }
                 echo '</ul>';
