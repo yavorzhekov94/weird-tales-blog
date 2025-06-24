@@ -34,7 +34,7 @@ function custom_post_types() {
     register_post_type('professor', array(
         'show_in_rest' => true,
         'has_archive' => true,
-        'supports' => array('title', 'editor'),
+        'supports' => array('title', 'editor', 'thumbnail'),
         'public' => true,
         'labels' => array(
             'name' => 'Professors',
