@@ -29,7 +29,7 @@ page_banner(
         while($query->have_posts()) {
 
             $query->the_post();
-            event_summary();
+            get_template_part('template-parts/content', 'event');
         }
         echo paginate_links(
             array(

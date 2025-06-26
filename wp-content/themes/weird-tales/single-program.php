@@ -48,7 +48,7 @@ while (have_posts()) {
                     
                <li class="professor-card__list-item">
                    <a class="professor-card" href="<?php the_permalink();?>">
-                       <img src="<?php the_post_thumbnail_url();?>" alt="" class="professor-card__image">
+                       <img src="<?php the_post_thumbnail_url('professorLandScape');?>" alt="" class="professor-card__image">
                        <span class="professor-card__name">
                            <?php the_title(); ?>
                        </span>
@@ -93,7 +93,7 @@ while (have_posts()) {
 
             while ($home_page_events->have_posts()) {
                 $home_page_events->the_post();
-                event_summary();
+                get_template_part('template-parts/content', 'event');
             }
         }
 

@@ -12,7 +12,7 @@
        while(have_posts()) {
 
         the_post();
-        event_summary();
+           get_template_part('template-parts/content', 'event');
        }
             echo paginate_links()
         ?>

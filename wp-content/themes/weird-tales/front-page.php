@@ -31,8 +31,8 @@
             ];
             $home_page_events = new WP_Query( $args );
             while ($home_page_events->have_posts()) {
-              $home_page_events->the_post(); 
-              event_summary();
+              $home_page_events->the_post();
+              get_template_part('template-parts/content', 'event');
               }
             ?>
          
