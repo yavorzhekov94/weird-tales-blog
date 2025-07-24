@@ -123,5 +123,4 @@ function ourLoginTitle() {
 }
 add_filter('login_headertitle', 'ourLoginTitle');
 
-add_action( 'wp_footer', 'wp_print_speculation_rules', 20 );
 ?>

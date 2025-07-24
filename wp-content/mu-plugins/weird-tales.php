@@ -18,7 +18,7 @@ function custom_post_types() {
     register_post_type('program', array(
         'show_in_rest' => true,
         'has_archive' => true,
-        'supports' => array('title', 'editor'),
+        'supports' => array('title'),
         'rewrite' => array('slug' => 'programs'),
         'public' => true,
         'labels' => array(
@@ -33,6 +33,7 @@ function custom_post_types() {
 
     register_post_type('professor', array(
         'show_in_rest' => true,
+        'rewrite' => array('slug' => 'professors'),
         'has_archive' => true,
         'supports' => array('title', 'editor', 'thumbnail'),
         'public' => true,

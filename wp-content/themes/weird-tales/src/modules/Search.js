@@ -46,29 +46,108 @@ class Search {
     }
 
     getResults() {
-        $.getJSON(
-            blogData.root_url + '/wp-json/wp/v2/search?search=' + this.searchField.val() + '&subtype=post,page,event,member,album,hall',
-            results => {
-                this.resultsDiv.html(`
-                    <h2 class="search-overlay__section-title">Search Results</h2>
-                    ${results.length ? '<ul class="link-list min-list">' : '<p>No results found for this keyword.</p>'}
-                    ${results
-                        .map(
-                            item => `
-                                <li>
-                                    <a href="${item.url}">${item.title} by ${item.authorName}</a> 
-                                    <span>(${item.type})</span>
-                                </li>
-                            `
-                        )
-                        .join('')}
-                    ${results.length ? '</ul>' : ''}
-                `);
+        // Fetch the HTML template
+        const templatePath = `${blogData.root_url}/wp-content/themes/weird-tales/templates/results-template.html`;
+        $.get(templatePath, template => {
+            $.getJSON(
+                `${blogData.root_url}/wp-json/wp/v2/search?search=${encodeURIComponent(this.searchField.val())}&subtype=post,page,event,program,professor,campus`,
+                results => {
+                    // Generate HTML for each section
+                    const generalInfoHTML = results.generalInfo.length
+                        ? `<ul class="link-list min-list">
+                              ${results.generalInfo
+                                  .map(
+                                      item => `
+                                          <li>
+                                              <a href="${item.url}">${item.title} by ${item.authorName}</a> 
+                                              <span>(${item.type})</span>
+                                          </li>
+                                      `
+                                  )
+                                  .join('')}
+                            </ul>`
+                        : '<p>No results found for this keyword.</p>';
+    
+                    const programsHTML = results.programs.length
+                        ? `<ul class="link-list min-list">
+                              ${results.programs
+                                  .map(
+                                      item => `
+                                          <li>
+                                              <a href="${item.url}">${item.title}</a> 
+                                          </li>
+                                      `
+                                  )
+                                  .join('')}
+                            </ul>`
+                        : '<p>No results found for this keyword.</p>';
+    
+                    const professorsHTML = results.professors.length
+                        ? `<ul class="proffessor-card">
+                              ${results.professors
+                                  .map(
+                                      item => `
+                                           <li class="professor-card_list-item">
+                                                <a class="professor-card" href="${item.url}">
+                                                    <img class="professor-card_image" src="${item.image}" alt="">
+                                                    <span class="professor-card_name">${item.title}</span>
+                                                </a>
+                                           </li>
+                                      `
+                                  )
+                                  .join('')}
+                            </ul>`
+                        : '<p>No results found for this keyword.</p>';
+                    
+                        const eventsHTML = results.events.length
+                        ? `<div class="event-summary">
+                              ${results.events
+                                  .map(
+                                      item => `
+                                           <a class="event-summary__date t-center" href="${item.url}">
+                                                <span class="event-summary__month">${item.day}</span>
+                                                <span class="event-summary__day">${item.month}</span>
+                                            </a>
+                                            <div class="event-summary__content">
+                                                <h5 class="event-summary__title headline headline--tiny"><a href="${item.url}">${item.title}</a></h5>
+                                                <p>${item.description}<a href="${item.url}" class="nu gray">Learn more</a></p>
+                                            </div>       
+                                      `
+                                  )
+                                  .join('')}
+                          </div>`  
+                        : '<p>No results found for this keyword.</p>';
+
+                        const campusesHTML = results.campuses.length
+                        ? `<ul class="link-list min-list">
+                              ${results.campuses
+                                  .map(
+                                      item => `
+                                          <li>
+                                              <a href="${item.url}">${item.title}</a> 
+                                          </li>
+                                      `
+                                  )
+                                  .join('')}
+                            </ul>`
+                        : '<p>No results found for this keyword.</p>';
+    
+                    // Replace placeholders in the template
+                    const finalHTML = template
+                        .replace('{{generalInfo}}', generalInfoHTML)
+                        .replace('{{programs}}', programsHTML)
+                        .replace('{{professors}}', professorsHTML)
+                        .replace('{{campuses}}', campusesHTML)
+                        .replace('{{events}}', eventsHTML);
+    
+                    // Inject the populated template into the results container
+                    this.resultsDiv.html(finalHTML);
+                    this.isSpinnerVisible = false;
+                }
+            ).fail(() => {
+                this.resultsDiv.html('<p>Something went wrong. Please try again.</p>');
                 this.isSpinnerVisible = false;
-            }
-        ).fail(() => {
-            this.resultsDiv.html('<p>Something went wrong. Please try again.</p>');
-            this.isSpinnerVisible = false;
+            });
         });
     }
 
@@ -89,6 +168,7 @@ class Search {
         this.searchField.val('');
         setTimeout(() => this.searchField.focus());
         this.isOverlayOpen = false;
+        return false
     };
 
     closeOverlay() {
